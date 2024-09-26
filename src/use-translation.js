@@ -1,5 +1,6 @@
 import { getLocales } from 'expo-localization';
 import { I18n } from 'i18n-js';
+import { useEffect, useState } from 'react';
 
 const ko = require('./lang/lang.ko.json');
 const en = require('./lang/lang.en.json');
@@ -14,10 +15,18 @@ const i18n = new I18n({
 });
 
 const deviceLanguage = getLocales()[0].languageCode;
-i18n.locale = deviceLanguage;
 
 export const useTranslation = () => {
+  const [locale, setLocale] = useState(null);
+
+  useEffect(() => {
+    setLocale(deviceLanguage);
+    // setLocale('ja');
+  }, []);
+
   return {
-    t : (scope) => i18n.t(scope)
+    locale,
+    setLocale,
+    t : (scope) => i18n.t(scope, {locale})
   }
 }
