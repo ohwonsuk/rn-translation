@@ -15,6 +15,9 @@ const i18n = new I18n({
   zh
 });
 
+i18n.enableFallback = true; // i18n 값이 지정 안될 때 기본 설정값 가져오는 셋팅
+i18n.defaultLocale = 'ko';
+
 const deviceLanguage = getLocales()[0].languageCode;
 const LOCALE_KEY = "locale";
 
@@ -37,7 +40,9 @@ export const useTranslation = () => {
   };
 
   useEffect(() => {
-    init();
+    setTimeout(() => {
+      init();
+    }, 3000)
   }, []);
 
   return {
