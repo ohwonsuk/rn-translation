@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useTranslation } from './src/use-translation';
 import Button from './src/Button';
 import { useCookie } from './src/use-cookie';
+import LoadingView from './src/LoadingView';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,16 +17,20 @@ export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (locale !== null && cookieKey !== "") { 
+    if (cookieKey !== "") { 
         setIsLoaded(true);
       }
-  }, [locale, cookieKey]);
+  }, [cookieKey]);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (locale !== null) {
       SplashScreen.hideAsync();
     };
-  }, [isLoaded]);
+  }, [locale]);
+
+  if (!isLoaded) return (
+    <LoadingView />
+  );
 
   return (
     <View style={styles.container}>
