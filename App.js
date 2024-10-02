@@ -11,10 +11,12 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
 
-  const {locale, setLocale, t} = useTranslation();
+  const {locale, setLocale, t, format} = useTranslation();
   const {cookieKey} = useCookie();
 
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const todayText = format(t('today_is'),2022, 11, 24);
 
   useEffect(() => {
     if (cookieKey !== "") { 
@@ -34,6 +36,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Text>{todayText}</Text>
       <Text>{t(cookieKey)}</Text>
       <View style={styles.buttonsContainer}>
         <Button 
