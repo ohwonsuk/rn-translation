@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Dimensions } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import LottieView from 'lottie-react-native';
 
@@ -9,6 +9,9 @@ import { useCookie } from './src/use-cookie';
 import LoadingView from './src/LoadingView';
 
 SplashScreen.preventAutoHideAsync();
+
+const width = Dimensions.get("screen").width;
+const height = Dimensions.get("screen").height;
 
 export default function App() {
 
@@ -22,6 +25,8 @@ export default function App() {
   const d = new Date().getDate();
 
   const todayText = format(t('today_is'), y, m, d);
+
+  const locales = ["ko", "en", "ja", "zh", "es"];
 
   useEffect(() => {
     if (cookieKey !== "") { 
@@ -48,8 +53,8 @@ export default function App() {
         style={{
           position: 'absolute',
           zIndex: -1,
-          width: 400,
-          height:850
+          width,
+          height
         }}
       />
       <SafeAreaView style={{flex:1}}>
@@ -59,26 +64,14 @@ export default function App() {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.buttonsContainer}>
-            <Button 
-              onPress={() => setLocale('ko')}
-              isSelected={locale === 'ko'}
-              text={'KO'} 
-              />
-            <Button 
-              onPress={() => setLocale('en')}
-              isSelected={locale === 'en'}
-              text={'EN'} 
-            />
-            <Button 
-              onPress={() => setLocale('ja')}
-              isSelected={locale === 'ja'}
-              text={'JA'} 
-            />
-            <Button 
-              onPress={() => setLocale('zh')}
-              isSelected={locale === 'zh'}
-              text={'ZH'} 
-            />
+            {locales.map( item => (
+                <Button 
+                key={item}
+                onPress={() => setLocale(item)}
+                isSelected={locale === item}
+                text={item.toUpperCase()} 
+                />
+            ))}
           </View>
         </View>
       </SafeAreaView>
